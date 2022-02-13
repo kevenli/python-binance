@@ -969,7 +969,8 @@ class Client(BaseClient):
         start_ts = convert_ts_str(start_str)
 
         # establish first available start timestamp
-        if start_ts is not None:
+        # FutureCoins does not support `_get_earliest_valid_timestamp` for the error `-4088`
+        if start_ts is not None and klines_type != HistoricalKlinesType.FUTURES_COIN:
             first_valid_ts = self._get_earliest_valid_timestamp(symbol, interval, klines_type)
             start_ts = max(start_ts, first_valid_ts)
 
